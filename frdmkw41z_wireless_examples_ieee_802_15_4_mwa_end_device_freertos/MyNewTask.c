@@ -52,6 +52,7 @@ void Task_Counter(osaTaskParam_t argument)
 			{
 				TurnOffLeds();
 				Led_RGB_Red(LED1,1);
+				Led_TurnOn(LED1);
 				counter++;
 				break;
 			}
@@ -60,6 +61,7 @@ void Task_Counter(osaTaskParam_t argument)
 			{
 				TurnOffLeds();
 				Led_RGB_Green(LED1,1);
+				Led_TurnOn(LED1);
 				counter++;
 				break;
 			}
@@ -68,6 +70,7 @@ void Task_Counter(osaTaskParam_t argument)
 			{
 				TurnOffLeds();
 				Led_RGB_Blue(LED1,1);
+				Led_TurnOn(LED1);
 				counter++;
 				break;
 
