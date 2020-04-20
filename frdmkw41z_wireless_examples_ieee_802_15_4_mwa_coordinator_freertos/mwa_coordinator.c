@@ -39,6 +39,15 @@
 
 #include "MyNewTask.h"
 
+
+typedef struct
+{
+	uint8_t shortAddress;
+	uint32_t ExtendAddress;
+	bool RxOnWhenIdle;
+	uint8_t DeviceType;
+}Node_information;
+
 /************************************************************************************
 *************************************************************************************
 * Private macros
