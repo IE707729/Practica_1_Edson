@@ -44,6 +44,8 @@
 #include "board.h"
 #include "fsl_os_abstraction.h"
 
+#include "MyNewTask.h"
+
 /************************************************************************************
 *************************************************************************************
 * Private macros
@@ -145,6 +147,15 @@ static uint8_t        interfaceId;
 osaEventId_t          mAppEvent;
 osaTaskId_t           mAppTaskHandler;
 
+
+typedef struct
+{
+	uint8_t shortAddress;
+	uint32_t ExtendAddress;
+	bool RxOnWhenIdle;
+	uint8_t DeviceType;
+}Node_information;
+
 #if gNvmTestActive_d
 
 static uint16_t timeoutCounter = 0;
@@ -206,6 +217,8 @@ void main_task(uint32_t param)
         Phy_Init();
         RNG_Init(); /* RNG must be initialized after the PHY is Initialized */
         MAC_Init();
+        MyTask_Init(); /* INIT MY NEW TASK */
+
 #if mEnterLowPowerWhenIdle_c
         PWR_Init();
         PWR_DisallowDeviceToSleep();
@@ -525,6 +538,7 @@ void AppThread(osaTaskParam_t argument)
             rc = App_SendAssociateRequest();
             if(rc == errorNoError)
                 gState = stateAssociateWaitConfirm;
+            MyTaskTimer_Start();
             break; 
             
         case stateAssociateWaitConfirm:

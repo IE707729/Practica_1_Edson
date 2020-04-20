@@ -18,6 +18,11 @@ static void myTaskTimerCallback(void *param)
 {
 	OSA_EventSet(mMyEvents, gMyNewTaskEvent2_c);
 }
+
+static void SwitchCallback(void *param)
+{
+	OSA_EventSet(mMyEvents, gMyNewTaskEvent2_c);
+}
 /* Main custom task */
 void Task_Counter(osaTaskParam_t argument)
 {
@@ -43,7 +48,7 @@ void Task_Counter(osaTaskParam_t argument)
 			break;
 		case gMyNewTaskEvent2_c: /* Event called from myTaskTimerCallback */
 
-			if(counter == 0)
+			if(counter == 0 )
 			{
 				TurnOffLeds();
 				Led_RGB_Red(LED1,1);
@@ -51,7 +56,7 @@ void Task_Counter(osaTaskParam_t argument)
 				break;
 			}
 
-			if(counter == 1)
+			if(counter == 1 || gKBD_EventSW3_c)
 			{
 				TurnOffLeds();
 				Led_RGB_Green(LED1,1);
@@ -59,7 +64,7 @@ void Task_Counter(osaTaskParam_t argument)
 				break;
 			}
 
-			if(counter == 2)
+			if(counter == 2 || gKBD_EventSW4_c)
 			{
 				TurnOffLeds();
 				Led_RGB_Blue(LED1,1);
@@ -96,9 +101,15 @@ void MyTask_Init(void)
 mMyEvents = OSA_EventCreate(TRUE);
 /* The instance of the MAC is passed at task creaton */
 gMyTaskHandler_ID = OSA_TaskCreate(OSA_TASK(Task_Counter), NULL);
+KBD_Init(SwitchCallback);
 }
 
 void MyTaskTimer_Stop(void)
 {
 OSA_EventSet(mMyEvents, gMyNewTaskEvent3_c);
+}
+
+void MyTaskTimer_Start(void)
+{
+OSA_EventSet(mMyEvents, gMyNewTaskEvent1_c);
 }
